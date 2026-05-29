@@ -5,6 +5,9 @@
 FROM mcr.microsoft.com/playwright/mcp:v0.0.75
 
 USER root
-RUN cd /app \
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends patch \
+  && rm -rf /var/lib/apt/lists/* \
+  && cd /app \
   && npx -y rebrowser-patches@latest patch --packagePath node_modules/playwright-core
 USER node
