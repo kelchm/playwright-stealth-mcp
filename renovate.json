@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "dockerfile": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["mcr.microsoft.com/playwright/mcp"],
+      "commitMessageTopic": "playwright-mcp",
+      "labels": ["upstream-bump"]
+    }
+  ]
+}
