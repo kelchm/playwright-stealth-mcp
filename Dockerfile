@@ -47,4 +47,12 @@ FROM mcr.microsoft.com/playwright/mcp:v0.0.75
 USER root
 RUN rm -rf /app/node_modules
 COPY --from=builder --chown=node:node /build/node_modules /app/node_modules
+# Patchright maps the logical `chromium` browser to chrome-for-testing —
+# Google's user-mode build, closer to a real Chrome fingerprint than
+# open-source chromium. Microsoft's base image only ships chromium-1224
+# (matched to playwright 1.61-alpha); patchright 1.60 looks for
+# chrome-for-testing v148 / chromium-1223, and aborts the navigate call
+# if it can't find it. Install both the browser and its headless-shell
+# variant so headless launches also work.
+RUN cd /app && npx patchright install chrome-for-testing
 USER node
